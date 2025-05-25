@@ -1,5 +1,5 @@
 <script>
-import BaseCard from "./components/BaseCard.vue";
+import BaseCard from "./components/BaseCard.vue"; // Adjust path if needed
 
 export default {
   name: "App",
@@ -8,18 +8,15 @@ export default {
   },
   data() {
     return {
-      article: {
-        title: "Understanding Vue Slots",
-        content:
-          "Slots are a powerful feature in Vue.js for creating flexible and reusable components. They allow you to pass template fragments from a parent component into designated areas within a child component.",
-        author: "AI Assistant",
-        date: "May 24, 2025",
+      userProfile: {
+        name: "Alice Wonderland",
+        bio: "Loves to explore and discover new things. Curiouser and curiouser!",
+        joined: "January 2024",
       },
-      eventInfo: {
-        name: "Vue Conference 2025",
-        details:
-          "Join us for the biggest Vue event of the year! Learn from experts, network with peers, and explore the future of Vue.js.",
-        location: "Virtual",
+      productInfo: {
+        title: "Magic Potion",
+        description: "Grants temporary invisibility. Handle with care.",
+        price: "42 Gold Coins",
       },
     };
   },
@@ -27,62 +24,56 @@ export default {
 </script>
 
 <template>
-  <div id="app-container">
-    <h1>My Content Hub</h1>
+  <div>
+    <h1>My Application Dashboard</h1>
 
     <BaseCard>
       <template v-slot:header>
-        <h2>{{ article.title }}</h2>
+        <h2>User Profile: {{ userProfile.name }}</h2>
       </template>
 
-      <p>{{ article.content }}</p>
-      <button @click="alert('Read more about ' + article.title)">
-        Read More
-      </button>
+      <p>{{ userProfile.bio }}</p>
 
       <template #footer>
-        <span>By {{ article.author }} on {{ article.date }}</span>
+        <em>Member since: {{ userProfile.joined }}</em>
       </template>
     </BaseCard>
 
     <BaseCard>
       <template #header>
-        <h3>Event: {{ eventInfo.name }}</h3>
+        <h3>{{ productInfo.title }}</h3>
       </template>
 
-      <p>{{ eventInfo.details }}</p>
-      <p><strong>Location:</strong> {{ eventInfo.location }}</p>
+      <div>
+        <p>{{ productInfo.description }}</p>
+        <strong>Price: {{ productInfo.price }}</strong>
+      </div>
+
+      <template v-slot:footer>
+        <button @click="alert('Adding ' + productInfo.title + ' to cart!')">
+          Add to Cart
+        </button>
+        <button @click="alert('More info about ' + productInfo.title)">
+          More Info
+        </button>
+      </template>
     </BaseCard>
 
     <BaseCard>
       <template #header>
-        <h4>Quick Reminder</h4>
+        <h4>Quick Note</h4>
       </template>
-    </BaseCard>
-
-    <BaseCard>
       <p>
-        This card only has custom body content. No header, no footer from the
-        parent.
+        This card just has a header and some body text. The footer slot is not
+        used, so the footer element won't render (due to v-if="$slots.footer" in
+        BaseCard).
       </p>
-      <p>The <code>BaseCard</code> component's default slot makes this easy.</p>
+    </BaseCard>
+
+    <BaseCard>
+      <template #header>
+        <h4>Card with Default Body</h4>
+      </template>
     </BaseCard>
   </div>
 </template>
-
-<style>
-/* Global styles for the app container if needed */
-#app-container {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  padding: 20px;
-  background-color: #f4f7f6;
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 30px;
-}
-</style>
